@@ -81,3 +81,14 @@ def delete_pinecone_index(index_name='all'):
         pinecone.delete_index(index_name)
         print('OK')
 
+def ask_and_get_answer(vector_store, question):
+    from langchain.chains import RetrievalQA
+    from langchain.chat_models import ChatOpenAI
+
+    llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=1)
+
+    retriever = vector_store.as_retriever(search_type='similarity', search_kwargs={'k':3})
+    chain = RetrievalQA.from_chain_type(llm=llm, chain_type='stuff', retriever=retriever)
+
+    answer = chain.run(question)
+    return answer
