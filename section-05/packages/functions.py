@@ -1,6 +1,6 @@
 def load_document(file_path):
     import os
-    from packages.loaders import pdf_loader, docx_loader
+    from packages.loaders import pdf_loader, docx_loader, txt_loader
     
     file_name, extension = os.path.splitext(file_path)
        
@@ -8,7 +8,8 @@ def load_document(file_path):
 
     loaders = {
         '.pdf': pdf_loader,
-        '.docx': docx_loader
+        '.docx': docx_loader,
+        '.txt': txt_loader
     }
     
     if extension in loaders.keys():

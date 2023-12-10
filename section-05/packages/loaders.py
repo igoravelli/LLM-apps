@@ -15,3 +15,9 @@ def wikipedia_loader(query, lang, load_max_docs):
     loader = WikipediaLoader(query, lang=lang, load_max_docs=load_max_docs)
 
     return loader
+
+def txt_loader(file):
+    from langchain.document_loaders import TextLoader
+    loader = TextLoader(file)
+
+    return loader
