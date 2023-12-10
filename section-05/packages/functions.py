@@ -110,3 +110,12 @@ def ask_with_memory(vector_store, question, chat_history=[]):
     chat_history.append((question, result['answer']))
 
     return result, chat_history
+
+def create_embeddings(chunks):
+    from langchain.embeddings.openai import OpenAIEmbeddings
+    from langchain.vectorstores import Chroma
+    
+    embeddings = OpenAIEmbeddings()
+    vector_store = Chroma.from_documents(chunks, embeddings)
+
+    return vector_store
