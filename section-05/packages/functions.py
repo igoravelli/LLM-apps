@@ -27,9 +27,9 @@ def load_from_wikipedia(query, lang='en', load_max_docs=2):
 
     return data
 
-def chunk_documents(data, chunk_size=256):
+def chunk_documents(data, chunk_size=256, chunk_overlap=20):
     from langchain.text_splitter import RecursiveCharacterTextSplitter
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=0)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     chunks = text_splitter.split_documents(data)
     
     return chunks
