@@ -41,6 +41,14 @@ def print_embedding_cost(texts):
     print(f'Total Tokens: {total_tokens}')
     print(f'Embedding Cost in USD: {total_tokens / 1000 * 0.0004:.6f}')
 
+def calculate_embedding_cost(texts):
+    import tiktoken
+    enc = tiktoken.encoding_for_model('text-embedding-ada-002')
+    total_tokens = sum([len(enc.encode(page.page_content)) for page in texts])
+    price = total_tokens / 1000 * 0.0004
+
+    return total_tokens, price
+    
 def insert_or_fetch_embeddings(index_name, chunks):
     import pinecone
     import os
@@ -85,13 +93,13 @@ def delete_pinecone_index(index_name='all'):
         pinecone.delete_index(index_name)
         print('OK')
 
-def ask_and_get_answer(vector_store, question):
+def ask_and_get_answer(vector_store, question, k=3):
     from langchain.chains import RetrievalQA
     from langchain.chat_models import ChatOpenAI
 
     llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=1)
 
-    retriever = vector_store.as_retriever(search_type='similarity', search_kwargs={'k':3})
+    retriever = vector_store.as_retriever(search_type='similarity', search_kwargs={'k':k})
     chain = RetrievalQA.from_chain_type(llm=llm, chain_type='stuff', retriever=retriever)
 
     answer = chain.run(question)
