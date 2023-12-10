@@ -1,6 +1,8 @@
 def load_document(file_path):
     import os
-    from packages.loaders import pdf_loader, docx_loader, txt_loader
+    import sys
+    sys.path.append('../packages')
+    from loaders import pdf_loader, docx_loader, txt_loader
     
     file_name, extension = os.path.splitext(file_path)
        
@@ -21,7 +23,9 @@ def load_document(file_path):
     return data
 
 def load_from_wikipedia(query, lang='en', load_max_docs=2):
-    from packages.loaders import wikipedia_loader
+    import sys
+    sys.path.append('../packages')
+    from loaders import wikipedia_loader
     loader = wikipedia_loader(query=query, lang=lang, load_max_docs=load_max_docs)
     data = loader.load()
 
