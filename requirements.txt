@@ -3,3 +3,9 @@ langchain
 pinecone-client
 python-dotenv
 tiktoken
+
+# To streamlit project
+docx2txt
+pypdf
+streamlit
+chromadb
