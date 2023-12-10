@@ -40,8 +40,9 @@ def print_embedding_cost(texts):
     print(f'Total Tokens: {total_tokens}')
     print(f'Embedding Cost in USD: {total_tokens / 1000 * 0.0004:.6f}')
 
-def insert_or_fetch_embeddings(index_name):
+def insert_or_fetch_embeddings(index_name, chunks):
     import pinecone
+    import os
     from langchain.vectorstores import Pinecone
     from langchain.embeddings.openai import OpenAIEmbeddings
 
@@ -65,6 +66,8 @@ def insert_or_fetch_embeddings(index_name):
 
 def delete_pinecone_index(index_name='all'):
     import pinecone
+    import os
+
     pinecone.init(
         api_key=os.environ.get('PINECONE_API_KEY'),
         environment=os.environ.get('PINECONE_ENV')
