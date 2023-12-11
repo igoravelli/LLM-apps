@@ -62,3 +62,14 @@ if __name__ == '__main__':
             st.write(f'k: {k}')
             answer = ask_and_get_answer(vector_store, question, k)
             st.text_area('ChatBot Answer: ', value=answer)
+    
+    st.divider()
+
+    if 'history' not in st.session_state:
+        st.session_state.history = ''
+    value = f'Q: {question} \nA: {answer}'
+    st.session_state.history = f'{value} \n {"-" * 100} \n {st.session_state.history}'
+    h = st.session_state.history
+    st.text_area(label='Chat History', value=h, height=400, key='history')
+
+    
