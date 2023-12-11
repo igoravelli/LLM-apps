@@ -15,6 +15,9 @@ from functions import *
 ## -- ask_and_get_answer
 ## -- calculate_embedding_cost
 
+def clear_history():
+    if 'history' in st.session_state:
+        del st.session_state['history']
 
 
 ## --- THE STREAMLIT APP ---
@@ -31,9 +34,9 @@ if __name__ == '__main__':
             os.environ['OPENAI_API_KEY'] = api_key
 
         uploaded_file = st.file_uploader('Upload a file', type=['pdf', 'txt', 'docx'])
-        chunk_size = st.number_input('Chunk Size', min_value=100, max_value=2048, value=512)
-        k = st.number_input('k', min_value=1, max_value=20, value=3)
-        add_data = st.button('Add Data')
+        chunk_size = st.number_input('Chunk Size', min_value=100, max_value=2048, value=512, on_change=clear_history)
+        k = st.number_input('k', min_value=1, max_value=20, value=3, on_change=clear_history)
+        add_data = st.button('Add Data', on_click=clear_history)
 
         if uploaded_file and add_data:
             with st.spinner('Reading, chunking and embedding file ...'):
@@ -63,13 +66,12 @@ if __name__ == '__main__':
             answer = ask_and_get_answer(vector_store, question, k)
             st.text_area('ChatBot Answer: ', value=answer)
     
-    st.divider()
+            st.divider()
 
-    if 'history' not in st.session_state:
-        st.session_state.history = ''
-    value = f'Q: {question} \nA: {answer}'
-    st.session_state.history = f'{value} \n {"-" * 100} \n {st.session_state.history}'
-    h = st.session_state.history
-    st.text_area(label='Chat History', value=h, height=400, key='history')
+            if 'history' not in st.session_state:
+                st.session_state.history = ''
+            value = f'Q: {question} \nA: {answer}'
+            st.session_state.history = f'{value} \n {"-" * 100} \n {st.session_state.history}'
+            h = st.session_state.history
+            st.text_area(label='Chat History', value=h, height=400, key='history')
 
-    
