@@ -131,3 +131,15 @@ def create_embeddings(chunks):
     vector_store = Chroma.from_documents(chunks, embeddings)
 
     return vector_store
+
+def set_env_variables():
+    from dotenv import load_dotenv, find_dotenv
+    load_dotenv(find_dotenv(), override=True)
+    print("It's all right!")
+
+
+def instantiate_llm(model_name="gpt-3.5-turbo"):
+    from langchain.chat_models import ChatOpenAI
+    llm = ChatOpenAI(temperature=0, model_name=model_name)
+    
+    return llm
