@@ -9,3 +9,6 @@ docx2txt
 pypdf
 streamlit
 chromadb
+
+# To custom chatgpt project
+streamlit-chat
