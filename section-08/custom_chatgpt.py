@@ -10,7 +10,7 @@ from streamlit_chat import message
 
 import sys
 sys.path.append("../packages")
-from functions import instantiate_llm, set_env_variables
+from functions import set_env_variables
 
 set_env_variables()
 
@@ -46,4 +46,13 @@ with st.sidebar:
         
         st.session_state.messages.append(AIMessage(content=response.content))
 
-st.session_state.messages
+if len(st.session_state.messages) > 0:
+    if not isinstance(st.session_state.messages[0], SystemMessage):
+        st.session_state.messages.insert(0, SystemMessage(content="You are a helpful assistant."))
+
+
+for i, msg in enumerate(st.session_state.messages[1:]):
+    if isinstance(msg, HumanMessage):
+        message(msg.content, is_user=True, key=str(i) + '_user')
+    else:
+        message(msg.content, is_user=False, key=str(i) + '_ai')
